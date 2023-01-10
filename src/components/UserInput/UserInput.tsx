@@ -5,6 +5,7 @@ import { useSearchParams } from 'react-router-dom';
 const UserInput = () => {
   const [userInput, setUserInput] = useState('');
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [searchParams, setSearchParams] = useSearchParams();
 
   function handleInputChange(input: string) {
@@ -35,6 +36,7 @@ const UserInput = () => {
       />
       <button
         type='submit'
+        data-testid='search-button'
         className='rounded-tr-md rounded-br-md border-2 border-l-0 border-gray-600 bg-gray-600 px-3 text-lg text-white shadow-md'
       >
         <BsSearch />
