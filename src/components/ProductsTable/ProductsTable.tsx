@@ -42,6 +42,7 @@ const ProductsTable = ({ data }: Props) => {
             key={product.id}
             style={{ backgroundColor: product.color }}
             className='border-separate cursor-pointer text-gray-900 shadow-md shadow-gray-400 duration-100 ease-in-out hover:scale-[1.02]'
+            data-testid='product'
           >
             <td className='rounded-tl-md rounded-bl-md text-center font-semibold'>
               {product.id}
@@ -52,6 +53,16 @@ const ProductsTable = ({ data }: Props) => {
             </td>
           </tr>
         ))}
+        {!data.data.length && (
+          <tr>
+            <td
+              colSpan={3}
+              className='rounded-md border-2 text-center font-semibold text-gray-500 shadow-md'
+            >
+              No products found
+            </td>
+          </tr>
+        )}
         <tr>
           <td colSpan={3} className=''>
             <div className='flex items-center justify-center'>
@@ -59,6 +70,7 @@ const ProductsTable = ({ data }: Props) => {
                 className='rounded-md border-2 border-gray-600 px-3 py-1 duration-100 ease-in-out  disabled:opacity-40'
                 onClick={() => changePage('prev')}
                 disabled={data.page <= 1}
+                data-testid='prev-page'
               >
                 <GrFormPrevious />
               </button>
@@ -69,6 +81,7 @@ const ProductsTable = ({ data }: Props) => {
                 className='rounded-md border-2 border-gray-600 px-3 py-1 duration-100 ease-in-out  disabled:opacity-40'
                 onClick={() => changePage('next')}
                 disabled={data.page >= data.total_pages}
+                data-testid='next-page'
               >
                 <GrFormNext />
               </button>
