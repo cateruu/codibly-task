@@ -1,19 +1,27 @@
 import React, { useState } from 'react';
 import { BsSearch } from 'react-icons/bs';
+import { useSearchParams } from 'react-router-dom';
 
 const UserInput = () => {
   const [userInput, setUserInput] = useState('');
 
-  const handleInputChange = (input: string) => {
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  function handleInputChange(input: string) {
     if (input.match(new RegExp('^[0-9]+$')) || input === '') {
       setUserInput(input);
     }
-  };
+  }
 
   const handleSubmit = (event: React.FormEvent) => {
     event.preventDefault();
 
-    console.log('aha');
+    if (userInput) {
+      setSearchParams({ id: userInput });
+      return;
+    }
+
+    setSearchParams();
   };
 
   return (
