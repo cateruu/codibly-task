@@ -7,12 +7,14 @@ import UserInput from './components/UserInput/UserInput';
 function App() {
   const [data, setData] = useState<ApiResponse | null>(null);
   const [singleProduct, setSingleProduct] = useState<Product | null>(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [searchParams, setSearchParams] = useSearchParams();
 
   useEffect(() => {
     const getProducts = async () => {
+      setIsLoading(true);
       let fetchUrl = 'https://reqres.in/api/products?per_page=5';
 
       if (searchParams.get('id')) {
@@ -37,6 +39,7 @@ function App() {
 
           setData(null);
           setSingleProduct(singleProduct.data);
+          setIsLoading(false);
           return;
         }
 
@@ -46,6 +49,7 @@ function App() {
       } catch (error) {
         console.error(error);
       }
+      setIsLoading(false);
     };
 
     getProducts();
@@ -60,6 +64,9 @@ function App() {
         </h2>
         {data && <ProductsTable data={data} />}
         {singleProduct && <ProductsTable singleProduct={singleProduct} />}
+        {isLoading && (
+          <div className='h-10 w-10 animate-bounce rounded-full bg-gray-300'></div>
+        )}
       </main>
     </Layout>
   );

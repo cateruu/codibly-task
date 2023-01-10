@@ -16,6 +16,11 @@ const root = ReactDOM.createRoot(
 );
 root.render(
   <React.StrictMode>
-    <RouterProvider router={router} fallbackElement={<div>Loading...</div>} />
+    <RouterProvider
+      router={router}
+      fallbackElement={
+        <div className='h-20 w-20 animate-bounce rounded-full bg-gray-300'></div>
+      }
+    />
   </React.StrictMode>
 );
