@@ -2,11 +2,12 @@ import React, { useState } from 'react';
 import { BsSearch } from 'react-icons/bs';
 import { useSearchParams } from 'react-router-dom';
 
-const UserInput = () => {
-  const [userInput, setUserInput] = useState('');
+import { IoMdClose } from 'react-icons/io';
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+const UserInput = () => {
   const [searchParams, setSearchParams] = useSearchParams();
+
+  const [userInput, setUserInput] = useState(searchParams.get('id') || '');
 
   function handleInputChange(input: string) {
     if (input.match(new RegExp('^[0-9]+$')) || input === '') {
@@ -25,10 +26,21 @@ const UserInput = () => {
     setSearchParams();
   };
 
+  const clearInput = () => {
+    setUserInput('');
+
+    if (searchParams.get('page')) {
+      setSearchParams({ page: searchParams.get('page') as string });
+      return;
+    }
+
+    setSearchParams();
+  };
+
   return (
     <form
       onSubmit={handleSubmit}
-      className='flex w-full justify-center pt-20 lg:w-3/5'
+      className='relative flex w-full justify-center pt-20 lg:w-3/5'
     >
       <input
         type='text'
@@ -37,6 +49,18 @@ const UserInput = () => {
         onChange={(e) => handleInputChange(e.target.value)}
         className=' grow  rounded-tl-md rounded-bl-md border-2 border-gray-600 px-3 py-2 text-gray-800 shadow-md outline-none duration-100 focus:border-2 focus:border-blue-500 lg:w-3/5'
       />
+      {userInput && (
+        <div
+          aria-label='clear input'
+          className='absolute right-14 cursor-pointer self-center text-xl text-gray-700'
+          onClick={(e) => {
+            e.preventDefault();
+            clearInput();
+          }}
+        >
+          <IoMdClose />
+        </div>
+      )}
       <button
         type='submit'
         data-testid='search-button'

@@ -28,18 +28,30 @@ describe('UserInput component', () => {
     expect(input.value).toBe('');
   });
 
+  it('clear input', () => {
+    const { input } = setup();
+
+    expect(input.value).toBe('');
+    fireEvent.change(input, { target: { value: '5' } });
+    expect(input.value).toBe('5');
+
+    const clearInputBtn = screen.getByLabelText('clear input');
+    fireEvent.click(clearInputBtn);
+    expect(input.value).toBe('');
+  });
+
   it('add search param on form submit', () => {
     const { input } = setup();
 
     expect(input.value).toBe('');
-    fireEvent.change(input, { target: { value: '2' } });
-    expect(input.value).toBe('2');
+    fireEvent.change(input, { target: { value: '3' } });
+    expect(input.value).toBe('3');
 
     const submitButton = screen.getByTestId('search-button');
     fireEvent.click(submitButton);
 
     const params = new URLSearchParams(document.location.search);
     const id = params.get('id');
-    expect(id).toBe('2');
+    expect(id).toBe('3');
   });
 });
