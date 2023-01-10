@@ -5,7 +5,7 @@ import ProductsTable from './components/ProductsTable/ProductsTable';
 import UserInput from './components/UserInput/UserInput';
 
 function App() {
-  const [products, setProducts] = useState<Product[] | null>(null);
+  const [data, setData] = useState<ApiResponse | null>(null);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [searchParams, setSearchParams] = useSearchParams();
@@ -32,7 +32,7 @@ function App() {
         }
 
         const data: ApiResponse = await response.json();
-        setProducts(data.data);
+        setData(data);
       } catch (error) {
         console.error(error);
       }
@@ -48,7 +48,7 @@ function App() {
         <h2 className='mt-10 w-full  text-4xl font-semibold text-gray-800 lg:w-3/5'>
           Products
         </h2>
-        {products && <ProductsTable products={products} />}
+        {data && <ProductsTable data={data} />}
       </main>
     </Layout>
   );

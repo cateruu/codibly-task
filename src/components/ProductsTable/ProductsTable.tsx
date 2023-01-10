@@ -1,10 +1,27 @@
 import React from 'react';
+import { useSearchParams } from 'react-router-dom';
+
+import { GrFormPrevious, GrFormNext } from 'react-icons/gr';
 
 type Props = {
-  products: Product[];
+  data: ApiResponse;
 };
 
-const ProductsTable = ({ products }: Props) => {
+const ProductsTable = ({ data }: Props) => {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  const changePage = (direction: string) => {
+    switch (direction) {
+      case 'next':
+        setSearchParams({ page: `${++data.page}` });
+        break;
+      case 'prev':
+        setSearchParams({ page: `${--data.page}` });
+        break;
+    }
+  };
+
   return (
     <table
       className='w-full border-separate border-spacing-y-3 lg:w-3/5'
@@ -19,7 +36,7 @@ const ProductsTable = ({ products }: Props) => {
         </tr>
       </thead>
       <tbody>
-        {products.map((product) => (
+        {data.data.map((product) => (
           <tr
             aria-label='show product'
             key={product.id}
@@ -36,8 +53,26 @@ const ProductsTable = ({ products }: Props) => {
           </tr>
         ))}
         <tr>
-          <td colSpan={3} className='py-4'>
-            aha
+          <td colSpan={3} className=''>
+            <div className='flex items-center justify-center'>
+              <button
+                className='rounded-md border-2 border-gray-600 px-3 py-1 duration-100 ease-in-out  disabled:opacity-40'
+                onClick={() => changePage('prev')}
+                disabled={data.page <= 1}
+              >
+                <GrFormPrevious />
+              </button>
+              <p className='mx-4'>
+                {data.page} - {data.total_pages}
+              </p>
+              <button
+                className='rounded-md border-2 border-gray-600 px-3 py-1 duration-100 ease-in-out  disabled:opacity-40'
+                onClick={() => changePage('next')}
+                disabled={data.page >= data.total_pages}
+              >
+                <GrFormNext />
+              </button>
+            </div>
           </td>
         </tr>
       </tbody>
