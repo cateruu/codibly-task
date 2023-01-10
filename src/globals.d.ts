@@ -13,3 +13,7 @@ interface ApiResponse {
   total_pages: number;
   data: Product[];
 }
+
+interface ApiResponseSingleProduct {
+  data: Product;
+}

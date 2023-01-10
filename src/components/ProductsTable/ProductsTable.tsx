@@ -2,23 +2,27 @@ import React from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import { GrFormPrevious, GrFormNext } from 'react-icons/gr';
+import Product from './Product/Product';
 
 type Props = {
-  data: ApiResponse;
+  data?: ApiResponse;
+  singleProduct?: Product;
 };
 
-const ProductsTable = ({ data }: Props) => {
+const ProductsTable = ({ data, singleProduct }: Props) => {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [searchParams, setSearchParams] = useSearchParams();
 
   const changePage = (direction: string) => {
-    switch (direction) {
-      case 'next':
-        setSearchParams({ page: `${++data.page}` });
-        break;
-      case 'prev':
-        setSearchParams({ page: `${--data.page}` });
-        break;
+    if (data) {
+      switch (direction) {
+        case 'next':
+          setSearchParams({ page: `${++data.page}` });
+          break;
+        case 'prev':
+          setSearchParams({ page: `${--data.page}` });
+          break;
+      }
     }
   };
 
@@ -36,24 +40,11 @@ const ProductsTable = ({ data }: Props) => {
         </tr>
       </thead>
       <tbody>
-        {data.data.map((product) => (
-          <tr
-            aria-label='show product'
-            key={product.id}
-            style={{ backgroundColor: product.color }}
-            className='border-separate cursor-pointer text-gray-900 shadow-md shadow-gray-400 duration-100 ease-in-out hover:scale-[1.02]'
-            data-testid='product'
-          >
-            <td className='rounded-tl-md rounded-bl-md text-center font-semibold'>
-              {product.id}
-            </td>
-            <td className=''>{product.name}</td>
-            <td className='rounded-tr-md rounded-br-md text-center'>
-              {product.year}
-            </td>
-          </tr>
-        ))}
-        {!data.data.length && (
+        {data &&
+          data.data.map((product) => (
+            <Product key={product.id} productData={product} />
+          ))}
+        {data && !data.data.length && (
           <tr>
             <td
               colSpan={3}
@@ -63,31 +54,34 @@ const ProductsTable = ({ data }: Props) => {
             </td>
           </tr>
         )}
-        <tr>
-          <td colSpan={3} className=''>
-            <div className='flex items-center justify-center'>
-              <button
-                className='rounded-md border-2 border-gray-600 px-3 py-1 duration-100 ease-in-out  disabled:opacity-40'
-                onClick={() => changePage('prev')}
-                disabled={data.page <= 1}
-                data-testid='prev-page'
-              >
-                <GrFormPrevious />
-              </button>
-              <p className='mx-4'>
-                {data.page} - {data.total_pages}
-              </p>
-              <button
-                className='rounded-md border-2 border-gray-600 px-3 py-1 duration-100 ease-in-out  disabled:opacity-40'
-                onClick={() => changePage('next')}
-                disabled={data.page >= data.total_pages}
-                data-testid='next-page'
-              >
-                <GrFormNext />
-              </button>
-            </div>
-          </td>
-        </tr>
+        {data && (
+          <tr>
+            <td colSpan={3} className=''>
+              <div className='flex items-center justify-center'>
+                <button
+                  className='rounded-md border-2 border-gray-600 px-3 py-1 duration-100 ease-in-out  disabled:opacity-40'
+                  onClick={() => changePage('prev')}
+                  disabled={data.page <= 1}
+                  data-testid='prev-page'
+                >
+                  <GrFormPrevious />
+                </button>
+                <p className='mx-4'>
+                  {data.page} - {data.total_pages}
+                </p>
+                <button
+                  className='rounded-md border-2 border-gray-600 px-3 py-1 duration-100 ease-in-out  disabled:opacity-40'
+                  onClick={() => changePage('next')}
+                  disabled={data.page >= data.total_pages}
+                  data-testid='next-page'
+                >
+                  <GrFormNext />
+                </button>
+              </div>
+            </td>
+          </tr>
+        )}
+        {singleProduct && <Product productData={singleProduct} />}
       </tbody>
     </table>
   );

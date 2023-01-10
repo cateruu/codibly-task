@@ -6,6 +6,7 @@ import UserInput from './components/UserInput/UserInput';
 
 function App() {
   const [data, setData] = useState<ApiResponse | null>(null);
+  const [singleProduct, setSingleProduct] = useState<Product | null>(null);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [searchParams, setSearchParams] = useSearchParams();
@@ -31,7 +32,16 @@ function App() {
           throw new Error(`${response.status}`);
         }
 
+        if (searchParams.get('id')) {
+          const singleProduct: ApiResponseSingleProduct = await response.json();
+
+          setData(null);
+          setSingleProduct(singleProduct.data);
+          return;
+        }
+
         const data: ApiResponse = await response.json();
+        setSingleProduct(null);
         setData(data);
       } catch (error) {
         console.error(error);
@@ -49,6 +59,7 @@ function App() {
           Products
         </h2>
         {data && <ProductsTable data={data} />}
+        {singleProduct && <ProductsTable singleProduct={singleProduct} />}
       </main>
     </Layout>
   );
