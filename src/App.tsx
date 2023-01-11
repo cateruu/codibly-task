@@ -1,13 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import Layout from './components/Layout/Layout';
+import Modal from './components/Modal/Modal';
+import { ProductType } from './components/ProductsTable/Product/Product';
 import ProductsTable from './components/ProductsTable/ProductsTable';
 import UserInput from './components/UserInput/UserInput';
+import { useAppSelector } from './hooks/reduxHooks';
 
 function App() {
   const [data, setData] = useState<ApiResponse | null>(null);
-  const [singleProduct, setSingleProduct] = useState<Product | null>(null);
+  const [singleProduct, setSingleProduct] = useState<ProductType | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+
+  const isModalOpen = useAppSelector((state) => state.modal.isModalOpen);
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [searchParams, setSearchParams] = useSearchParams();
@@ -57,6 +62,7 @@ function App() {
 
   return (
     <Layout>
+      {isModalOpen && <Modal />}
       <main className='flex min-h-screen w-full flex-col items-center font-display'>
         <UserInput />
         <h2 className='mt-10 w-full  text-4xl font-semibold text-gray-800 lg:w-3/5'>

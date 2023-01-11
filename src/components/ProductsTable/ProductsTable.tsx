@@ -2,11 +2,11 @@ import React from 'react';
 import { useSearchParams } from 'react-router-dom';
 
 import { GrFormPrevious, GrFormNext } from 'react-icons/gr';
-import Product from './Product/Product';
+import Product, { ProductType } from './Product/Product';
 
 type Props = {
   data?: ApiResponse;
-  singleProduct?: Product;
+  singleProduct?: ProductType;
 };
 
 const ProductsTable = ({ data, singleProduct }: Props) => {

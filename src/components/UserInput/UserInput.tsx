@@ -40,7 +40,7 @@ const UserInput = () => {
   return (
     <form
       onSubmit={handleSubmit}
-      className='relative flex w-full justify-center pt-20 lg:w-3/5'
+      className='relative flex w-full justify-center pt-10 lg:w-3/5 lg:pt-20'
     >
       <input
         type='text'
