@@ -4,6 +4,8 @@ import { closeModal } from '../../store/features/modal/modalSlice';
 
 import { IoMdClose } from 'react-icons/io';
 
+import { motion } from 'framer-motion';
+
 const Modal = () => {
   const data = useAppSelector((state) => state.modal.data);
   const dispatch = useAppDispatch();
@@ -15,7 +17,11 @@ const Modal = () => {
         onClick={() => dispatch(closeModal())}
         data-testid='close-modal-bg'
       ></div>
-      <div
+      <motion.div
+        key={data?.id}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
         className='fixed top-1/2 left-1/2 z-20 flex min-w-[300px] -translate-x-1/2 -translate-y-1/2 flex-col rounded-md bg-white px-12  py-8 text-gray-800 shadow-md'
         data-testid='modal'
       >
@@ -47,7 +53,7 @@ const Modal = () => {
           <span className='font-medium'>Pantone value:</span>
           <span> {data?.pantone_value}</span>
         </p>
-      </div>
+      </motion.div>
     </>
   );
 };
