@@ -4,16 +4,15 @@ import { Provider } from 'react-redux';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import { store } from './store/store';
-
-import type { FetchMock } from 'jest-fetch-mock/types';
+import fetchMock from 'jest-fetch-mock';
 
 describe('App component', () => {
   beforeEach(() => {
-    (fetch as FetchMock).resetMocks();
+    fetchMock.resetMocks();
   });
 
   it('should fetch products', async () => {
-    (fetch as FetchMock).mockResponseOnce(
+    fetchMock.mockResponseOnce(
       JSON.stringify({
         page: 1,
         per_page: 5,
@@ -72,7 +71,7 @@ describe('App component', () => {
   });
 
   it('should show error on API problem', async () => {
-    (fetch as FetchMock).mockReject(() => Promise.reject('Error: 500'));
+    fetchMock.mockReject(() => Promise.reject('Error: 500'));
     render(
       <Provider store={store}>
         <App />

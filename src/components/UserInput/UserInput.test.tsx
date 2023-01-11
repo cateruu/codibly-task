@@ -12,7 +12,7 @@ const setup = () => {
 };
 
 describe('UserInput component', () => {
-  it('accept numbers', () => {
+  it('should accept numbers', () => {
     const { input } = setup();
 
     expect(input.value).toBe('');
@@ -20,7 +20,7 @@ describe('UserInput component', () => {
     expect(input.value).toBe('1');
   });
 
-  it('not accept letters', () => {
+  it('should not accept letters', () => {
     const { input } = setup();
 
     expect(input.value).toBe('');
@@ -28,7 +28,7 @@ describe('UserInput component', () => {
     expect(input.value).toBe('');
   });
 
-  it('clear input', () => {
+  it('should clear input', () => {
     const { input } = setup();
 
     expect(input.value).toBe('');
@@ -40,7 +40,7 @@ describe('UserInput component', () => {
     expect(input.value).toBe('');
   });
 
-  it('add search param on form submit', () => {
+  it('should add search param on form submit', () => {
     const { input } = setup();
 
     expect(input.value).toBe('');
