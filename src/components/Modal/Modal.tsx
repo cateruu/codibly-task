@@ -13,11 +13,16 @@ const Modal = () => {
       <div
         className='fixed top-0 left-0 z-10 h-screen w-screen bg-gray-900 opacity-80'
         onClick={() => dispatch(closeModal())}
+        data-testid='close-modal-bg'
       ></div>
-      <div className='fixed top-1/2 left-1/2 z-20 flex min-w-[300px] -translate-x-1/2 -translate-y-1/2 flex-col rounded-md bg-white px-12  py-8 text-gray-800 shadow-md'>
+      <div
+        className='fixed top-1/2 left-1/2 z-20 flex min-w-[300px] -translate-x-1/2 -translate-y-1/2 flex-col rounded-md bg-white px-12  py-8 text-gray-800 shadow-md'
+        data-testid='modal'
+      >
         <button
           className='absolute top-3 right-3 text-2xl text-gray-600'
           onClick={() => dispatch(closeModal())}
+          data-testid='close-modal'
         >
           <IoMdClose />
         </button>

@@ -2,6 +2,8 @@ import React from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { BrowserRouter } from 'react-router-dom';
 import ProductsTable from './ProductsTable';
+import { Provider } from 'react-redux';
+import { store } from '../../store/store';
 
 describe('ProductsTable component', () => {
   const propsData: ApiResponse = {
@@ -49,16 +51,21 @@ describe('ProductsTable component', () => {
   };
 
   beforeEach(() => {
-    render(<ProductsTable data={propsData} />, { wrapper: BrowserRouter });
+    render(
+      <Provider store={store}>
+        <ProductsTable data={propsData} />
+      </Provider>,
+      { wrapper: BrowserRouter }
+    );
   });
 
-  it('render products from data', () => {
+  it('should render products from data', () => {
     const allProducts = screen.getAllByTestId('product');
 
     expect(allProducts).toHaveLength(5);
   });
 
-  it('change pages', () => {
+  it('should change pages', () => {
     const nextPage = screen.getByTestId('next-page');
     const prevPage = screen.getByTestId('prev-page');
 
@@ -75,13 +82,13 @@ describe('ProductsTable component', () => {
     expect(page).toBe('1');
   });
 
-  it('not be able to click on disabled pagination button', () => {
+  it('should not be able to click on disabled pagination button', () => {
     const prevPage = screen.getByTestId('prev-page');
 
     expect(prevPage).toBeDisabled();
   });
 
-  it('show information that there is no products', () => {
+  it('should show information that there is no products', () => {
     const propsData: ApiResponse = {
       page: 1,
       per_page: 5,
